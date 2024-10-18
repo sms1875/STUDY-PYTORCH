@@ -55,4 +55,4 @@ for epoch in range(nb_epochs + 1):
         # Epoch  700/1000 Cost: 0.134461
         # Epoch  800/1000 Cost: 0.120799
         # Epoch  900/1000 Cost: 0.109696
-        # Epoch 1000/1000 Cost: 0.100488
+        # Epoch 1000/1000 Cost: 0.100488  
