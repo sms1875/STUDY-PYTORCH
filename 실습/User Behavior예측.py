@@ -14,14 +14,34 @@ class SoftmaxClassifierModel(nn.Module):
         self.linear = nn.Linear(9, 5)
     def forward(self, x):
         return self.linear(x)
-    
+
 # 데이터 로드
 data = pd.read_csv('user_behavior_dataset.csv')
+print("Data head:\n", data.head())
+print("\nData shape:", data.shape)
+# Data head:
+#     User ID    Device Model Operating System  App Usage Time (min/day)  Screen On Time (hours/day)  Battery Drain (mAh/day)  Number of Apps Installed  Data Usage (MB/day)  Age  Gender  User Behavior Class
+# 0        1  Google Pixel 5          Android                       393                         6.4                     1872                        67                 1122   40    Male                    4
+# 1        2       OnePlus 9          Android                       268                         4.7                     1331                        42                  944   47  Female                    3
+# 2        3    Xiaomi Mi 11          Android                       154                         4.0                      761                        32                  322   42    Male                    2
+# 3        4  Google Pixel 5          Android                       239                         4.8                     1676                        56                  871   20    Male                    3
+# 4        5       iPhone 12              iOS                       187                         4.3                     1367                        58                  988   31  Female                    3
+
+# Data shape: (700, 11)
 
 # 범주형 데이터 인코딩
 data['Device Model'] = data['Device Model'].astype('category').cat.codes
 data['Operating System'] = data['Operating System'].astype('category').cat.codes
 data['Gender'] = data['Gender'].map({'Male': 0, 'Female': 1})
+
+print("\nEncoded data head:\n", data.head())
+# Encoded data head:
+#     User ID  Device Model  Operating System  App Usage Time (min/day)  Screen On Time (hours/day)  Battery Drain (mAh/day)  Number of Apps Installed  Data Usage (MB/day)  Age  Gender  User Behavior Class
+# 0        1             0                 0                       393                         6.4                     1872                        67                 1122   40       0                    4
+# 1        2             1                 0                       268                         4.7                     1331                        42                  944   47       1                    3
+# 2        3             3                 0                       154                         4.0                      761                        32                  322   42       0                    2
+# 3        4             0                 0                       239                         4.8                     1676                        56                  871   20       0                    3
+# 4        5             4                 1                       187                         4.3                     1367                        58                  988   31       1                    3
 
 # User Behavior Class를 1~5에서 0~4로 변환
 data['User Behavior Class'] = data['User Behavior Class'] - 1
@@ -43,6 +63,26 @@ mu = x_train.mean(dim=0)
 sigma = x_train.std(dim=0)
 norm_x_train = (x_train - mu) / sigma
 norm_x_test = (x_test - mu) / sigma  # x_train의 평균과 표준편차로 x_test 정규화
+
+# 정규화된 데이터 출력
+print("\nMean of training data:", mu)
+print("Standard deviation of training data:", sigma)
+# Mean of training data: tensor([2.0900e+00, 2.2800e-01, 2.7168e+02, 5.2642e+00, 1.5268e+03, 5.0752e+01,
+#         9.2623e+02, 3.8560e+01, 4.8400e-01])
+# Standard deviation of training data: tensor([1.4415e+00, 4.1996e-01, 1.7850e+02, 3.1153e+00, 8.2903e+02, 2.7258e+01,
+#         6.4256e+02, 1.2082e+01, 5.0024e-01])
+print("\nNormalized x_train sample:\n", norm_x_train[:5])
+# Normalized x_train sample:
+#  tensor([[-1.4498, -0.5429,  0.6797,  0.3646,  0.4164,  0.5961,  0.3047,  0.1192,
+#          -0.9675],
+#         [-0.7561, -0.5429, -0.0206, -0.1811, -0.2361, -0.3211,  0.0276,  0.6986,
+#           1.0315],
+#         [ 0.6313, -0.5429, -0.6593, -0.4058, -0.9237, -0.6880, -0.9404,  0.2847,
+#          -0.9675],
+#         [-1.4498, -0.5429, -0.1831, -0.1490,  0.1800,  0.1925, -0.0860, -1.5362,
+#          -0.9675],
+#         [ 1.3250,  1.8383, -0.4744, -0.3095, -0.1927,  0.2659,  0.0961, -0.6257,
+#           1.0315]])
 
 # 모델 초기화
 model = SoftmaxClassifierModel()
@@ -75,26 +115,7 @@ with torch.no_grad():
     accuracy = (predicted_classes == y_test).float().mean()
     print(f'Accuracy: {accuracy.item() * 100:.2f}%')
 
-# lr 클수록 낮아짐, Epoch 클수록 낮아짐
-# Epoch    0/2000 Cost: 1.474506
-# Epoch  100/2000 Cost: 0.754614
-# Epoch  200/2000 Cost: 0.621768
-# Epoch  300/2000 Cost: 0.541334
-# Epoch  400/2000 Cost: 0.484654
-# Epoch  500/2000 Cost: 0.441403
-# Epoch  600/2000 Cost: 0.406742
-# Epoch  700/2000 Cost: 0.378032
-# Epoch  800/2000 Cost: 0.353684
-# Epoch  900/2000 Cost: 0.332663
-# Epoch 1000/2000 Cost: 0.314264
-# Epoch 1100/2000 Cost: 0.297980
-# Epoch 1200/2000 Cost: 0.283436
-# Epoch 1300/2000 Cost: 0.270347
-# Epoch 1400/2000 Cost: 0.258492
-# Epoch 1500/2000 Cost: 0.247694
-# Epoch 1600/2000 Cost: 0.237811
-# Epoch 1700/2000 Cost: 0.228726
-# Epoch 1800/2000 Cost: 0.220342
-# Epoch 1900/2000 Cost: 0.212580
-# Epoch 2000/2000 Cost: 0.205369
-# Accuracy: 99.50%
+print("\nSample predictions (first 10):", predicted_classes[:10].numpy())
+print("\nTrue classes (first 10):", y_test[:10].numpy())
+# Sample predictions (first 10): [0 3 4 2 4 3 2 0 2 4]
+# True classes (first 10): [0 3 4 2 4 3 2 0 2 4]
