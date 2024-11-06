@@ -61,7 +61,7 @@ def imshow(img):
 
 # 랜덤 학습 이미지 가져오기 및 시각화
 dataiter = iter(trainloader)
-images, labels = dataiter.next()
+images, labels = next(dataiter)
 vis.images(images / 2 + 0.5)  # 정규화된 이미지를 되돌림
 
 # show images
@@ -167,7 +167,7 @@ print('Finished Training')
 
 # 테스트 데이터셋에서 일부 이미지를 가져옴
 dataiter = iter(testloader)
-images, labels = dataiter.next()
+images, labels = next(dataiter)
 
 # 테스트 이미지 출력
 imshow(torchvision.utils.make_grid(images))

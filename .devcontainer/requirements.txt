@@ -1,0 +1,8 @@
+numpy
+scikit-learn
+matplotlib
+tensorflow
+autokeras
+ipykernel
+regex
+torch-tb-profiler

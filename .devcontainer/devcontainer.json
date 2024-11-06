@@ -1,5 +1,31 @@
 {
-    "name": "STUDY-PYTORCH",
-    "image": "deeplearningzerotoall/pytorch"
+  "name": "CUDA",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": [
+    "--gpus=all",
+    "--rm",
+    "--cap-add=SYS_ADMIN",
+    "--network=host",
+    "--security-opt",
+    "seccomp=unconfined"
+  ],
+  "updateContentCommand": "bash .devcontainer/install-dev-tools.sh",
+  "postCreateCommand": [
+    "nvidia-smi"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.makefile-tools",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.tensorboard"
+      ]
+    }
   }
-  
+}
