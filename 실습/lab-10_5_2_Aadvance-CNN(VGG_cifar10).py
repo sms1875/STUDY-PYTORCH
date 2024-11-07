@@ -164,6 +164,17 @@ for epoch in range(epochs):  # 데이터셋을 여러 번 반복
             running_loss = 0.0
 
 print('Finished Training')
+# [1,    30] loss: 2.302
+# [1,    60] loss: 2.297
+# [1,    90] loss: 2.288
+# [2,    30] loss: 2.250
+# [2,    60] loss: 2.290
+# ...
+# [49,    60] loss: 0.075
+# [49,    90] loss: 0.082
+# [50,    30] loss: 0.065
+# [50,    60] loss: 0.064
+# [50,    90] loss: 0.060
 
 # 테스트 데이터셋에서 일부 이미지를 가져옴
 dataiter = iter(testloader)
@@ -197,3 +208,7 @@ with torch.no_grad():
 
 print('Accuracy of the network on the 10000 test images: %d %%' % (
     100 * correct / total))
+
+# GroundTruth:    cat  ship  ship plane
+# Predicted:    cat  ship  ship plane
+# Accuracy of the network on the 10000 test images: 72 %
