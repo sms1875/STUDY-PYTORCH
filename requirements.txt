@@ -2,3 +2,9 @@ numpy
 pandas
 matplotlib
 visdom
+scikit-learn
+tensorflow
+autokeras
+ipykernel
+regex
+torch-tb-profiler

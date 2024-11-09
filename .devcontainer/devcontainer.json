@@ -1,17 +1,19 @@
 {
-  "name": "CUDA",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "name": "STUDY-PYTORCH",
+  "image": "nvcr.io/nvidia/pytorch:24.03-py3",
   "runArgs": [
     "--gpus=all",
     "--rm",
     "--cap-add=SYS_ADMIN",
     "--network=host",
     "--security-opt",
-    "seccomp=unconfined"
+    "seccomp=unconfined",
+    "--name",
+    "STUDY-PYTORCH"
   ],
-  "updateContentCommand": "bash .devcontainer/install-dev-tools.sh",
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "remoteUser": "root",
   "postCreateCommand": [
     "nvidia-smi"
   ],
