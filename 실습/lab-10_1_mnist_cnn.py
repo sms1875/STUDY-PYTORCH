@@ -115,6 +115,21 @@ for epoch in range(training_epochs):
     print('[Epoch: {:>4}] cost = {:>.9}'.format(epoch + 1, avg_cost))
 
 print('Learning Finished!')
+# [Epoch:    1] cost = 0.225939184
+# [Epoch:    2] cost = 0.0630982518
+# [Epoch:    3] cost = 0.0463336967
+# [Epoch:    4] cost = 0.0374494195
+# [Epoch:    5] cost = 0.0313653052
+# [Epoch:    6] cost = 0.0261803828
+# [Epoch:    7] cost = 0.0218190774
+# [Epoch:    8] cost = 0.0183058828
+# [Epoch:    9] cost = 0.0164249353
+# [Epoch:   10] cost = 0.0131303286
+# [Epoch:   11] cost = 0.00988870859
+# [Epoch:   12] cost = 0.00991326477
+# [Epoch:   13] cost = 0.00879074447
+# [Epoch:   14] cost = 0.0067628026
+# [Epoch:   15] cost = 0.00727953995
 
 # 모델 테스트 및 정확도 계산
 with torch.no_grad():  # 테스트 단계에서는 기울기 계산 비활성화
@@ -129,3 +144,4 @@ with torch.no_grad():  # 테스트 단계에서는 기울기 계산 비활성화
     # 정확도 계산
     accuracy = correct_prediction.float().mean()
     print('Accuracy:', accuracy.item())
+# Accuracy: 0.9873999953269958
