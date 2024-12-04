@@ -12,15 +12,13 @@ model_urls = {
     'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
 }
 
-# 3x3 컨볼루션 레이어 정의
+# 3x3 컨볼루션 레이어 정의 (입력 공간 정보를 효과적으로 캡처)
 def conv3x3(in_planes, out_planes, stride=1):
-    """3x3 컨볼루션, 패딩 포함"""
     return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
                      padding=1, bias=False)
 
-# 1x1 컨볼루션 레이어 정의
+# 1x1 컨볼루션 레이어 정의 (채널 축소 또는 확장 용도)
 def conv1x1(in_planes, out_planes, stride=1):
-    """1x1 컨볼루션"""
     return nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=stride, bias=False)
 
 # BasicBlock 클래스 정의 (ResNet18 및 ResNet34에서 사용)
@@ -125,13 +123,14 @@ class ResNet(nn.Module):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
 
-        # Residual Block의 마지막 배치 정규화 계수를 0으로 초기화
+        # Zero Initialization: Identity Mapping을 강화하기 위한 설정
         if zero_init_residual:
             for m in self.modules():
                 if isinstance(m, Bottleneck):
                     nn.init.constant_(m.bn3.weight, 0)
                 elif isinstance(m, BasicBlock):
                     nn.init.constant_(m.bn2.weight, 0)
+
     
     # ResNet의 레이어를 구성하는 함수
     def _make_layer(self, block, planes, blocks, stride=1):
