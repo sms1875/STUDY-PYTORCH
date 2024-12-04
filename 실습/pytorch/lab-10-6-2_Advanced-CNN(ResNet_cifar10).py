@@ -176,7 +176,7 @@ for epoch in range(epochs):
             value_tracker(loss_plt, torch.Tensor([running_loss / 30]), torch.Tensor([i + epoch * len(trainloader)]))
             print(f'[{epoch + 1}, {i + 1}] loss: {running_loss / 30:.3f}')
             running_loss = 0.0
-            
+
     lr_sche.step()
     acc = acc_check(resnet50, testloader, epoch, save=1)
     value_tracker(acc_plt, torch.Tensor([acc]), torch.Tensor([epoch]))
@@ -197,3 +197,47 @@ with torch.no_grad():
         correct += (predicted == labels).sum().item()
 
 print(f'Accuracy of the network on the 10000 test images: {100 * correct / total:.2f}%')
+# [1, 30] loss: 2.039
+# [1, 60] loss: 1.885
+# [1, 90] loss: 1.775
+# [1, 120] loss: 1.753
+# [1, 150] loss: 1.670
+# [1, 180] loss: 1.609
+# Accuracy of the network on the 10000 test images: 40.86%
+# [2, 30] loss: 1.527
+# [2, 60] loss: 1.472
+# [2, 90] loss: 1.439
+# [2, 120] loss: 1.368
+# [2, 150] loss: 1.341
+# [2, 180] loss: 1.268
+# Accuracy of the network on the 10000 test images: 47.97%
+# ...
+# [28, 30] loss: 0.153
+# [28, 60] loss: 0.154
+# [28, 90] loss: 0.159
+# [28, 120] loss: 0.160
+# [28, 150] loss: 0.176
+# [28, 180] loss: 0.178
+# Accuracy of the network on the 10000 test images: 85.07%
+# [29, 30] loss: 0.180
+# [29, 60] loss: 0.149
+# [29, 90] loss: 0.153
+# [29, 120] loss: 0.154
+# [29, 150] loss: 0.169
+# [29, 180] loss: 0.167
+# Accuracy of the network on the 10000 test images: 84.50%
+# ...
+# [39, 30] loss: 0.051
+# [39, 60] loss: 0.056
+# [39, 90] loss: 0.048
+# [39, 120] loss: 0.057
+# [39, 150] loss: 0.057
+# [39, 180] loss: 0.064
+# Accuracy of the network on the 10000 test images: 85.56%
+# [40, 30] loss: 0.066
+# [40, 60] loss: 0.058
+# [40, 90] loss: 0.054
+# [40, 120] loss: 0.065
+# [40, 150] loss: 0.063
+# [40, 180] loss: 0.064
+# Accuracy of the network on the 10000 test images: 85.76%
